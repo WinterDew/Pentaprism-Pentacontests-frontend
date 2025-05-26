@@ -1,22 +1,21 @@
 import { useEffect, useState } from "react";
-import LoginPage from "./components/login";
+import LoginPage from "./components/loginPage";
 import pb from "./services/pocketbase";
-
+import HomePage from "./components/homePage";
 
 function App() {
-  const [loggedIn, setLoggedIn] = useState(false);
+  // console.log(pb.authStore.isValid);
+  const [loggedIn, setLoggedIn] = useState(pb.authStore.isValid);
 
   useEffect(() => {
-    pb.authStore.onChange(() => {
+    // Update loggedIn when authStore changes
+    return pb.authStore.onChange(() => {
       setLoggedIn(pb.authStore.isValid);
+      
     });
   }, []);
 
-  if(loggedIn){
-    return <div>Logged in</div>;
-  } else {
-    return <LoginPage/>
-  }
+  return loggedIn ? <HomePage /> : <LoginPage />;
 }
 
-export default App
+export default App;
