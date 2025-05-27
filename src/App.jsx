@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-import LoginOAuth from "./components/loginOAuth";
-import HomePage from "./components/homePage";
+import LoginOAuth from "./components/LoginPage";
+import HomePage from "./components/HomePage";
 import pb from "./services/pocketbase";
+import SubmissionsPage from "./components/SubmissionsPage";
+import GalleryPage from './components/GalleryPage';
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(pb.authStore.isValid);
@@ -40,6 +42,8 @@ function App() {
           </PublicRoute>
         }
       />
+      <Route path="/gallery" element={<PrivateRoute><GalleryPage /></PrivateRoute>} />
+      <Route path="/submission" element={<PrivateRoute><SubmissionsPage /></PrivateRoute>} />
       <Route path="*" element={<Navigate to={loggedIn ? "/" : "/login"} />} />
     </Routes>
   );
