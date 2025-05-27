@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-import LoginPage from "./components/loginPage";
+import LoginOAuth from "./components/loginOAuth";
 import HomePage from "./components/homePage";
 import pb from "./services/pocketbase";
 
@@ -36,7 +36,7 @@ function App() {
         path="/login"
         element={
           <PublicRoute>
-            <LoginPage />
+            <LoginOAuth />
           </PublicRoute>
         }
       />
