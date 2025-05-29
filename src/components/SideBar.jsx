@@ -80,7 +80,7 @@ const Sidebar = () => {
             ({ icon, label, key }) => (
               <button
                 key={key || label}
-                className="btn btn-ghost btn-circle flex-1 min-w-[60px] flex flex-col items-center justify-center"
+                className="btn btn-ghost btn-square flex-1 min-w-[60px] flex flex-col items-center justify-center"
                 onClick={() => {
                   if (key) onActionClick[key]?.();
                   else logo?.onClick?.();

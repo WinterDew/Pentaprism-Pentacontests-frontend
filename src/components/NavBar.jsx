@@ -2,8 +2,7 @@ import React from "react";
 
 const Navbar = ({ appName = "Pentacontests", userName = null }) => {
   return (
-    <nav className="navbar bg-base-200 px-4 py-3 shadow-md items-around justify-center">
-      
+    <nav className="navbar px-4 py-3 items-around justify-center">
       <div className="flex-none">
         {userName ? (
           <span className="text-xl sm:text-xl">
