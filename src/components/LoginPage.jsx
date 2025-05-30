@@ -22,7 +22,22 @@ function LoginOAuth(){
     }
 
     return (
-        <button className="btn ptn-primary" onClick={handleLogin}>O Auth Login</button>
+        <div className="flex items-center justify-center min-h-screen w-screen bg-base-200">
+            <div className="card card-border w-full max-w-sm shadow-2xl bg-base-100">
+                <div className="card-body items-center text-center">
+                <h1 className="text-3xl font-bold">Pentacontests</h1>
+                <p className="py-2 text-sm text-gray-500">
+                    Welcome to Pentacontests, <br />Login with Microsoft OAuth with your IIIT Account.
+                </p>
+                <div className="card-actions w-full mt-4">
+                    <button className="btn btn-outline w-full" onClick={handleLogin}>Login</button>
+                    <div className="divider w-full"> ☉ </div>
+                    <button className="btn btn-outline w-full" onClick={() => {showToast("Non-IIIT Login coming soon. Contact Administrator for access", "warning")}}>Don't have IIIT Account</button>
+                </div>
+                </div>
+            </div>
+        </div>
+
     )
 }
 

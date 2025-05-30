@@ -1,9 +1,12 @@
 import pb from "../services/pocketbase";
 import { useState } from "react";
+import useToast from '../hooks/useToast';
 
 function ConfirmLogout({ isOpen, onClose }) {
+  const showToast = useToast();
   const handleLogout = () => {
     pb.authStore.clear();
+    showToast("Logout Successful", "success");
   };
 
   if (!isOpen) return null;

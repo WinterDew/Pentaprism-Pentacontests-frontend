@@ -29,7 +29,7 @@ export const ToastProvider = ({ children }) => {
       {children}
 
       {/* Toast wrapper - positioned top-right */}
-      <div className="toast toast-top toast-end z-50 space-y-2 p-4">
+      <div className="toast toast-top toast-right z-50 space-y-2 p-4">
         {toasts.map((toast) => (
           <div
             key={toast.id}
