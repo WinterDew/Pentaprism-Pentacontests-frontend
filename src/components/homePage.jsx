@@ -18,7 +18,7 @@ function HomePage() {
             Hello <strong>{userName}</strong>!
           </span>
         </Navbar>
-        <div className="content flex-1 flex items-center justify-center m-5">
+        <div className="content flex-1 flex items-center justify-center m-5 mb-20">
             <ContestCarousel />
         </div>
       </div>

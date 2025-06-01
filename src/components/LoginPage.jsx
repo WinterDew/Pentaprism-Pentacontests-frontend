@@ -30,9 +30,9 @@ function LoginOAuth(){
                     Welcome to Pentacontests, <br />Login with Microsoft OAuth with your IIIT Account.
                 </p>
                 <div className="card-actions w-full mt-4">
-                    <button className="btn btn-outline w-full" onClick={handleLogin}>Login</button>
+                    <button className="btn btn-neutral w-full" onClick={handleLogin}>Login</button>
                     <div className="divider w-full"> ☉ </div>
-                    <button className="btn btn-outline w-full" onClick={() => {showToast("Non-IIIT Login coming soon. Contact Administrator for access", "warning")}}>Don't have IIIT Account</button>
+                    <button className="btn btn-outline w-full" onClick={() => {showToast("Non-IIIT Login coming soon. Contact Administrator for access", "warning")}}>Don't have a IIIT Account</button>
                 </div>
                 </div>
             </div>
