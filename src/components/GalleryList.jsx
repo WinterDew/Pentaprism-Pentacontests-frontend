@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef, useCallback } from "react";
 import pb from "../services/pocketbase";
+import GalleryHero from "./GalleryHero";
 
 const PAGE_SIZE = 5;
 const DELAY_MS = 500;
@@ -12,6 +13,9 @@ export default function GalleryList() {
   const [error, setError] = useState(false);
   const loaderRef = useRef();
   const timeoutRef = useRef(null);
+  const [selectedSubmissionId, setSelectedSubmissionId] = useState("");
+  const [heroOpen, setHeroOpen] = useState(false);
+
 
   const fetchSubmissions = useCallback(async () => {
     if (loading || !hasMore || error) return;
@@ -68,6 +72,7 @@ export default function GalleryList() {
         <div key={sub.id} className="card bg-base-100 shadow-xl">
           <figure>
             <img
+              onClick={() => {setHeroOpen(false); setSelectedSubmissionId(sub.id); setHeroOpen(true);}}
               src={pb.files.getURL(sub, sub.image, { thumb: "400x320" })}
               alt={sub.title}
               className="max-w-full max-h-80 object-contain"
@@ -98,6 +103,11 @@ export default function GalleryList() {
           </div>
         )}
       </div>
+      <GalleryHero
+        submissionId={selectedSubmissionId}
+        isOpen={heroOpen}
+        onClose={() => {setHeroOpen(false)}}
+      />
     </div>
   );
 }
