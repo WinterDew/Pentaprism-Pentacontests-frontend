@@ -79,7 +79,8 @@ export default function SubmissionsList() {
         ))
       ) : error ? (
         <li className="list-row p-4 text-sm alert alert-soft alert-error text-center">
-          Something went wrong while fetching your submissions.
+          Something went wrong while fetching your submissions. 
+          <button className="btn btn-error btn-outline" onClick={fetchSubmissions}>Retry</button>
         </li>
       ) : submissions.length === 0 ? (
         <li className="list-row p-4 text-sm text-center text-base-content opacity-60 alert alert-soft">

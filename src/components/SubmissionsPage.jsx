@@ -14,7 +14,7 @@ function SubmissionsPage() {
       <div className="flex-1 w-full md:ml-16 flex-col">
         <Navbar>
             <span className="text-xl sm:text-xl">
-                <strong>Your Submissions</strong>!
+                <strong>Submissions</strong>
             </span>
         </Navbar>
         <div className="content flex-1 flex items-center justify-center m-5 mb-20">
