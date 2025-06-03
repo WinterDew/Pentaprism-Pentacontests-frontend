@@ -133,16 +133,23 @@ export default function GalleryList() {
       {submissions.map((sub) => (
         <div key={sub.id} className="card bg-base-100 shadow-xl">
           <figure>
-            <img
-              onClick={() => {
-                setHeroOpen(false);
-                setSelectedSubmissionId(sub.id);
-                setHeroOpen(true);
-              }}
-              src={pb.files.getURL(sub, sub.image, { thumb: "400x320" })}
-              alt={sub.title}
-              className="max-w-full max-h-80 object-contain"
-            />
+            <div className="relative group cursor-pointer">
+              <img
+                onClick={() => {
+                  setHeroOpen(false);
+                  setSelectedSubmissionId(sub.id);
+                  setHeroOpen(true);
+                }}
+                src={pb.files.getURL(sub, sub.image, { thumb: "400x320" })}
+                alt={sub.title}
+                className="max-w-full max-h-80 object-contain group-hover:scale-95 transition-transform"
+              />
+              <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-60 transition-opacity text-white text-sm">
+                Click to view
+              </div>
+            </div>
+
+            
           </figure>
           <div className="card-body">
             <h2 className="card-title flex items-center justify-between">
