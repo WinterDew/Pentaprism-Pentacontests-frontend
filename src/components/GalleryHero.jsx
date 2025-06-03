@@ -33,7 +33,7 @@ export default function GalleryHero({ submissionId, isOpen, onClose }) {
           <button onClick={onClose} className="btn btn-sm btn-circle absolute right-2 top-2">✕</button>
 
           {loading ? (
-            <div className="flex justify-center items-center h-40">Loading...</div>
+            <div className="flex justify-center items-center h-40 font-bold uppercase">Loading...</div>
           ) : data ? (
             <div>
               <img

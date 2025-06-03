@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef, useCallback } from "react";
 import pb from "../services/pocketbase";
 import GalleryHero from "./GalleryHero";
+import LikeButton from "../components/LikeButton";
 
 const PAGE_SIZE = 5;
 const DELAY_MS = 500;
@@ -11,16 +12,28 @@ export default function GalleryList() {
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const [error, setError] = useState(false);
+
   const loaderRef = useRef();
   const timeoutRef = useRef(null);
+  const isFetchingRef = useRef(false);
+
   const [selectedSubmissionId, setSelectedSubmissionId] = useState("");
   const [heroOpen, setHeroOpen] = useState(false);
 
+  // New states for batched like info
+  const [likeCounts, setLikeCounts] = useState({});
+  const [likedMap, setLikedMap] = useState({}); // submissionId -> likeRecordId if liked by user
 
+  const userId = pb.authStore.record?.id;
+
+  // Fetch submissions (paging)
   const fetchSubmissions = useCallback(async () => {
-    if (loading || !hasMore || error) return;
+    if (isFetchingRef.current || !hasMore || error) return;
+
+    isFetchingRef.current = true;
     setLoading(true);
     setError(false);
+
     try {
       await new Promise((resolve) => {
         timeoutRef.current = setTimeout(resolve, DELAY_MS);
@@ -40,8 +53,9 @@ export default function GalleryList() {
       setError(true);
     } finally {
       setLoading(false);
+      isFetchingRef.current = false;
     }
-  }, [page, loading, hasMore, error]);
+  }, [page, hasMore, error]);
 
   useEffect(() => {
     fetchSubmissions();
@@ -58,13 +72,61 @@ export default function GalleryList() {
       },
       { threshold: 1.0 }
     );
-    if (loaderRef.current) {
-      observer.observe(loaderRef.current);
-    }
+
+    if (loaderRef.current) observer.observe(loaderRef.current);
     return () => {
       if (loaderRef.current) observer.unobserve(loaderRef.current);
     };
   }, [fetchSubmissions, hasMore, loading, error]);
+
+  // Batch fetch like counts and user likes for currently loaded submissions
+  useEffect(() => {
+    if (!submissions.length || !userId) return;
+
+    const fetchLikesForSubmissions = async () => {
+      const submissionIds = submissions.map((s) => s.id);
+
+      // Fetch like counts
+      const filterCounts = submissionIds
+        .map((id) => `submission="${id}"`)
+        .join(" || ");
+
+      const countsRes = await pb.collection("likes").getList(1, 1000, {
+        filter: filterCounts,
+        perPage: 1000,
+      });
+
+      // Initialize counts map
+      const counts = {};
+      submissionIds.forEach((id) => (counts[id] = 0));
+      countsRes.items.forEach((like) => {
+        counts[like.submission] = (counts[like.submission] || 0) + 1;
+      });
+
+      // Fetch user likes
+      const filterUserLikes = `user="${userId}" && (${submissionIds
+        .map((id) => `submission="${id}"`)
+        .join(" || ")})`;
+
+      const userLikesRes = await pb.collection("likes").getList(1, 1000, {
+        filter: filterUserLikes,
+        perPage: 1000,
+      });
+
+      // Map submissionId -> likeRecordId (if liked)
+      const likedMapNew = {};
+      userLikesRes.items.forEach((like) => {
+        likedMapNew[like.submission] = like.id;
+      });
+
+      setLikeCounts(counts);
+      setLikedMap(likedMapNew);
+    };
+
+    fetchLikesForSubmissions().catch((err) =>
+      console.error("Error fetching likes:", err)
+    );
+  }, [submissions, userId]);
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
@@ -72,14 +134,39 @@ export default function GalleryList() {
         <div key={sub.id} className="card bg-base-100 shadow-xl">
           <figure>
             <img
-              onClick={() => {setHeroOpen(false); setSelectedSubmissionId(sub.id); setHeroOpen(true);}}
+              onClick={() => {
+                setHeroOpen(false);
+                setSelectedSubmissionId(sub.id);
+                setHeroOpen(true);
+              }}
               src={pb.files.getURL(sub, sub.image, { thumb: "400x320" })}
               alt={sub.title}
               className="max-w-full max-h-80 object-contain"
             />
           </figure>
           <div className="card-body">
-            <h2 className="card-title">{sub.title}</h2>
+            <h2 className="card-title flex items-center justify-between">
+              {sub.title}{" "}
+              <LikeButton
+                submissionId={sub.id}
+                liked={!!likedMap[sub.id]}
+                likeRecordId={likedMap[sub.id] || null}
+                likeCount={likeCounts[sub.id] || 0}
+                onLikeChange={({ liked, likeRecordId, likeCount }) => {
+                  // Update maps on like/unlike for instant UI update
+                  setLikedMap((prev) => {
+                    const copy = { ...prev };
+                    if (liked) copy[sub.id] = likeRecordId;
+                    else delete copy[sub.id];
+                    return copy;
+                  });
+                  setLikeCounts((prev) => ({
+                    ...prev,
+                    [sub.id]: likeCount,
+                  }));
+                }}
+              />
+            </h2>
             <p>
               {sub.expand.user.name} -{" "}
               <span className="uppercase font-bold opacity-60">
@@ -106,7 +193,7 @@ export default function GalleryList() {
       <GalleryHero
         submissionId={selectedSubmissionId}
         isOpen={heroOpen}
-        onClose={() => {setHeroOpen(false)}}
+        onClose={() => setHeroOpen(false)}
       />
     </div>
   );
