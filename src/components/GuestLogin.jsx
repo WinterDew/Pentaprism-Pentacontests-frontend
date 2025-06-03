@@ -14,7 +14,7 @@ export default function GuestLogin(){
             const authData = await pb.collection('users').authWithPassword(username, password);
             console.log(authData);
         } catch(err){
-            showToast("Login Failed, Please try again, Contact Administrator if error persists", "error");
+            showToast("Login Failed, Please try again", "error");
             console.log(error);
         }
 

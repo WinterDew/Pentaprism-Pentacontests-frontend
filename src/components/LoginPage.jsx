@@ -16,7 +16,7 @@ function LoginOAuth(){
                 pb.authStore.clear();
             }
         } catch(err){
-            showToast("Login Failed, Please try again, Contact Administrator if error persists", "error");
+            showToast("Login Failed, Please try again", "error");
             console.log(error);
         }
 
@@ -36,6 +36,7 @@ function LoginOAuth(){
                     <div className="divider w-full"> ☉ </div>
                     <button className="btn btn-outline w-full" onClick={() => {showToast("Contact Administrator for credentials", "warning"); navigate("/guest-login")}}>Don't have a IIIT Account</button>
                 </div>
+                <p className="py-2 text-sm text-gray-500">Developed and Hosted by Tatva Agarwal <a href="https://winterdew.github.io">(@winterdewdev)</a></p>
                 </div>
             </div>
         </div>
