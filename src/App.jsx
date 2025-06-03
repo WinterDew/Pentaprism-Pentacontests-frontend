@@ -5,6 +5,7 @@ import HomePage from "./components/HomePage";
 import pb from "./services/pocketbase";
 import SubmissionsPage from "./components/SubmissionsPage";
 import GalleryPage from './components/GalleryPage';
+import GuestLogin from './components/GuestLogin';
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(pb.authStore.isValid);
@@ -44,6 +45,7 @@ function App() {
       />
       <Route path="/gallery" element={<PrivateRoute><GalleryPage /></PrivateRoute>} />
       <Route path="/submission" element={<PrivateRoute><SubmissionsPage /></PrivateRoute>} />
+      <Route path="/guest-login" element={<PublicRoute><GuestLogin/></PublicRoute>}/>
       <Route path="*" element={<Navigate to={loggedIn ? "/" : "/login"} />} />
     </Routes>
   );

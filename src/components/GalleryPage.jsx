@@ -9,7 +9,7 @@ function GalleryPage() {
 
   return (
     <div className="flex min-h-screen">
-      <Sidebar />
+      <Sidebar/>
       <div className="flex-1 w-full md:ml-16 flex-col">
         <Navbar>
             <span className="text-xl sm:text-xl">

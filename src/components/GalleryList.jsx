@@ -168,7 +168,7 @@ export default function GalleryList() {
               />
             </h2>
             <p>
-              {sub.expand.user.name} -{" "}
+              {sub.expand.user?.name} -{" "}
               <span className="uppercase font-bold opacity-60">
                 {sub.expand.contest.name}
               </span>

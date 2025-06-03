@@ -1,20 +1,18 @@
 import pb from "../services/pocketbase";
 import useToast from "../hooks/useToast";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 
-function LoginOAuth(){
+export default function GuestLogin(){
     const showToast = useToast();
     const navigate = useNavigate();
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
     async function handleLogin(){
         try{
-            const authData = await pb.collection('users').authWithOAuth2({ provider: 'microsoft' });
+            const authData = await pb.collection('users').authWithPassword(username, password);
             console.log(authData);
-            if(pb.authStore.isValid && (!pb.authStore.record.email.endsWith("@research.iiit.ac.in") && !pb.authStore.record.email.endsWith("@students.iiit.ac.in"))){
-                await pb.collection("users").delete(pb.authStore.record.id);
-                showToast("Only @research.iiit.ac.in and @students.iiit.ac.in emails are allowed.", "warning");
-                pb.authStore.clear();
-            }
         } catch(err){
             showToast("Login Failed, Please try again, Contact Administrator if error persists", "error");
             console.log(error);
@@ -29,12 +27,18 @@ function LoginOAuth(){
                 <div className="card-body items-center text-center">
                 <h1 className="text-3xl font-bold">Pentacontests</h1>
                 <p className="py-2 text-sm text-gray-500">
-                    Welcome to Pentacontests, <br />Login with Microsoft OAuth with your IIIT Account.
+                    External login requires credentials from Administrator.
                 </p>
+                <fieldset className="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4">
+                    <p className="label">Username</p>
+                    <input type="text" className="input" placeholder="abc@example.com" onChange={(event) => {setUsername(event.target.value)}}/>
+                    <p className="label">Password</p>
+                    <input type="password" className="input" placeholder="*********" onChange={(event) => {setPassword(event.target.value)}}/>
+                </fieldset>
                 <div className="card-actions w-full mt-4">
                     <button className="btn btn-neutral w-full" onClick={handleLogin}>Login</button>
                     <div className="divider w-full"> ☉ </div>
-                    <button className="btn btn-outline w-full" onClick={() => {showToast("Contact Administrator for credentials", "warning"); navigate("/guest-login")}}>Don't have a IIIT Account</button>
+                    <button className="btn btn-outline w-full" onClick={() => {navigate("/login")}}>Have a IIIT Account</button>
                 </div>
                 </div>
             </div>
@@ -42,5 +46,3 @@ function LoginOAuth(){
 
     )
 }
-
-export default LoginOAuth;
