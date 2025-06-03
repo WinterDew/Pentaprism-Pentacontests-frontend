@@ -28,9 +28,9 @@ export default function GalleryHero({ submissionId, isOpen, onClose }) {
   return (
     <>
       <input type="checkbox" checked={isOpen} readOnly className="modal-toggle" />
-      <div className="modal">
-        <div className="modal-box max-w-3xl">
-          <button onClick={(e) => {e.stopPropagation(); onClose();}} className="btn btn-sm btn-neutral btn-circle absolute right-5 top-5">✕</button>
+      <div className="modal" onClick={onClose}>
+        <div className="modal-box max-w-3xl" onClick={(e) => {e.stopPropagation();}}>
+          <button onClick={(e) => {e.stopPropagation(); onClose();}} className="btn btn-md btn-neutral btn-circle absolute right-5 top-5">✕</button>
 
           {loading ? (
             <div className="flex justify-center items-center h-40 font-bold uppercase">Loading...</div>
