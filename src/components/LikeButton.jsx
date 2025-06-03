@@ -39,36 +39,59 @@ export default function LikeButton({
       showToast("Cannot like: Missing submission or user ID.", "error");
       return;
     }
-
+  
     setAnimate(true);
     setTimeout(() => setAnimate(false), 300);
-
+  
     try {
       if (liked) {
-        // Unlike: delete like record
-        await pb.collection("likes").delete(likeRecordId);
-        setLiked(false);
-        setLikeRecordId(null);
-        setLikeCount((prev) => prev - 1);
-        showToast("Unliked", "info");
-        onLikeChange({ liked: false, likeRecordId: null, likeCount: likeCount - 1 });
+        // Before deleting, check if the like record exists on server
+        try {
+          await pb.collection("likes").getOne(likeRecordId);
+          // If found, delete it
+          await pb.collection("likes").delete(likeRecordId);
+          setLiked(false);
+          setLikeRecordId(null);
+          setLikeCount((prev) => prev - 1);
+          showToast("Unliked", "info");
+        } catch (err) {
+          // If record doesn't exist, notify user or sync state
+          console.warn("Like record not found on server, syncing state.");
+          setLiked(false);
+          setLikeRecordId(null);
+          // Optionally refetch like count from server here
+          showToast("Like record not found, updated state.", "info");
+        }
       } else {
-        // Like: create like record
-        const res = await pb.collection("likes").create({
-          submission: submissionId,
-          user: userId,
-        });
-        setLiked(true);
-        setLikeRecordId(res.id);
-        setLikeCount((prev) => prev + 1);
-        showToast("Liked!", "success");
-        onLikeChange({ liked: true, likeRecordId: res.id, likeCount: likeCount + 1 });
+        // Before creating, check if like already exists for this user and submission
+        const existingLikes = await pb
+          .collection("likes")
+          .getFullList(1, {
+            filter: `submission="${submissionId}" && user="${userId}"`,
+          });
+  
+        if (existingLikes.length > 0) {
+          const existingLike = existingLikes[0];
+          setLiked(true);
+          setLikeRecordId(existingLike.id);
+          showToast("Already liked.", "info");
+        } else {
+          const res = await pb.collection("likes").create({
+            submission: submissionId,
+            user: userId,
+          });
+          setLiked(true);
+          setLikeRecordId(res.id);
+          setLikeCount((prev) => prev + 1);
+          showToast("Liked!", "success");
+        }
       }
     } catch (err) {
       console.error("Like toggle error:", err);
       showToast("Something went wrong. Please try again.", "error");
     }
   };
+  
 
   return (
     <button
