@@ -128,42 +128,44 @@ export default function GalleryList() {
     );
   }, [submissions, userId]);
 
+  if(submissions.length == 0) return (
+    <p className="p-4 text-sm text-center text-base-content opacity-60 alert alert-soft justify-center">
+      No submissions yet, be the first!!
+    </p>
+  );
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
       {submissions.map((sub, index) => (
         <div key={sub.id} className="card bg-base-100 shadow-xl">
-          {
-          index === 0 ? (
-        <figure className="relative">
-          <img
-            onClick={() => {
-              setSelectedSubmissionId(sub.id);
-              setHeroOpen(true);
-            }}
-            src={pb.files.getURL(sub, sub.image, { thumb: "400x320" })}
-            alt={sub.title}
-            className="max-w-full max-h-80 object-contain hover:scale-105 transition-transform cursor-pointer"
-          />
-          <span className="absolute top-2 left-2 bg-neutral text-white text-xs px-2 py-1 rounded-full shadow">
-            Click image to view
-          </span>
-        </figure>
-      ) : (
-        <figure>
-          <img
-            onClick={() => {
-              setSelectedSubmissionId(sub.id);
-              setHeroOpen(true);
-            }}
-            src={pb.files.getURL(sub, sub.image, { thumb: "400x320" })}
-            alt={sub.title}
-            className="max-w-full max-h-80 object-contain hover:scale-105 transition-transform cursor-pointer"
-          />
-        </figure>
-      )
-    }
+          {index === 0 ? (
+            <figure className="relative">
+              <img
+                onClick={() => {
+                  setSelectedSubmissionId(sub.id);
+                  setHeroOpen(true);
+                }}
+                src={pb.files.getURL(sub, sub.image, { thumb: "400x320" })}
+                alt={sub.title}
+                className="max-w-full max-h-80 object-contain hover:scale-105 transition-transform cursor-pointer"
+              />
+              <span className="absolute top-2 left-2 bg-neutral text-white text-xs px-2 py-1 rounded-full shadow">
+                Click image to view
+              </span>
+            </figure>
+          ) : (
+            <figure>
+              <img
+                onClick={() => {
+                  setSelectedSubmissionId(sub.id);
+                  setHeroOpen(true);
+                }}
+                src={pb.files.getURL(sub, sub.image, { thumb: "400x320" })}
+                alt={sub.title}
+                className="max-w-full max-h-80 object-contain hover:scale-105 transition-transform cursor-pointer"
+              />
+            </figure>
+          )}
 
-          
           <div className="card-body">
             <h2 className="card-title flex items-center justify-between">
               {sub.title}{" "}
@@ -197,7 +199,9 @@ export default function GalleryList() {
         </div>
       ))}
       <div ref={loaderRef} className="flex justify-center col-span-full p-4">
-        {loading && <span className="loading loading-spinner loading-lg"></span>}
+        {loading && (
+          <span className="loading loading-spinner loading-lg"></span>
+        )}
         {error && (
           <div className="alert alert-error text-error-content alert-soft">
             Failed to load more submissions.{" "}
