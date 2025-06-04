@@ -7,6 +7,7 @@ import SubmissionForm from "./SubmissionForm.jsx";
 import SubmissionsList from "./SubmissionsList.jsx";
 
 function SubmissionsPage() {
+  useEffect(() => {document.title = "Submissions | Pentacontests"}, []);
 
   return (
     <div className="flex min-h-screen">

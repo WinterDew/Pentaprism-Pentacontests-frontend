@@ -8,7 +8,7 @@ import ContestCarousel from "./ContestCarousel.jsx";
 function HomePage() {
   const user = pb.authStore?.record;
   const userName = user?.name ? user.name.split(" ")[0] : "";
-
+  useEffect(() => {document.title = "Home | Pentacontests"}, []);
   return (
     <div className="flex min-h-screen">
       <Sidebar />

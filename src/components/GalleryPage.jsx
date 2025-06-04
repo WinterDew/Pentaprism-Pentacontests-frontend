@@ -7,6 +7,9 @@ import GalleryList from "./GalleryList";
 
 function GalleryPage() {
 
+  useEffect(() => {document.title = "Gallery | Pentacontests"}, []);
+
+
   return (
     <div className="flex min-h-screen">
       <Sidebar/>

@@ -1,11 +1,14 @@
 import pb from "../services/pocketbase";
 import useToast from "../hooks/useToast";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 
 function LoginOAuth(){
     const showToast = useToast();
     const navigate = useNavigate();
+    useEffect(() => {document.title = "Login | Pentacontests"}, []);
+    
     async function handleLogin(){
         try{
             const authData = await pb.collection('users').authWithOAuth2({ provider: 'microsoft' });

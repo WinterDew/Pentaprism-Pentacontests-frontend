@@ -1,10 +1,11 @@
 import pb from "../services/pocketbase";
 import useToast from "../hooks/useToast";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 
 export default function GuestLogin(){
+    useEffect(() => {document.title = "Guest Login | Pentacontests"}, []);
     const showToast = useToast();
     const navigate = useNavigate();
     const [username, setUsername] = useState("");
