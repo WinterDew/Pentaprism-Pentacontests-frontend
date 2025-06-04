@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import pb from "../services/pocketbase";
 import useToast from "../hooks/useToast";
 
-export default function SubmissionsList() {
+export default function SubmissionsList({refresh = null}) {
   const [submissions, setSubmissions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
@@ -52,7 +52,7 @@ export default function SubmissionsList() {
     };
 
     loadInitial();
-  }, []);
+  }, [refresh]);
 
   const handleLoadMore = async () => {
     const nextPage = page + 1;

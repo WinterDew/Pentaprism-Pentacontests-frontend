@@ -8,6 +8,7 @@ import SubmissionsList from "./SubmissionsList.jsx";
 
 function SubmissionsPage() {
   useEffect(() => {document.title = "Submissions | Pentacontests"}, []);
+  const [submissionListRefresh, setSubmissionListRefresh] = useState(false);
 
   return (
     <div className="flex min-h-screen">
@@ -20,8 +21,8 @@ function SubmissionsPage() {
         </Navbar>
         <div className="content flex-1 flex items-center justify-center m-5 mb-20">
             <div className="flex flex-col md:flex-row justify-center items-center md:items-start gap-10">
-                <SubmissionForm></SubmissionForm>
-                <SubmissionsList></SubmissionsList>
+                <SubmissionForm onSubmit={() => setSubmissionListRefresh(!submissionListRefresh)}></SubmissionForm>
+                <SubmissionsList refresh={submissionListRefresh}></SubmissionsList>
             </div>
 
         </div>

@@ -1,8 +1,8 @@
 import pb from "../services/pocketbase";
 import useToast from "../hooks/useToast";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
-export default function SubmissionForm() {
+export default function SubmissionForm({onSubmit = null}) {
   const [contests, setContests] = useState([]);
   const showToast = useToast();
   const [maxSubmissionSize, setMaxSubmissionSize] = useState(0);
@@ -11,6 +11,7 @@ export default function SubmissionForm() {
   const [file, setFile] = useState(null);
   const [contest, setContest] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const fileInputElementRef = useRef(null);
 
   useEffect(() => {
     const fetchContests = async () => {
@@ -72,6 +73,8 @@ export default function SubmissionForm() {
       setCaption("");
       setFile(null);
       setContest("");
+      fileInputElementRef.current.value = "";
+      onSubmit?.();
       
     } catch (err) {
       console.error(err);
@@ -96,8 +99,8 @@ export default function SubmissionForm() {
           />
         </legend>
         <select
-          defaultValue="unselected"
           className="select"
+          value={contest}
           onChange={async (event) => {
             setContest(`${event.target.value}`);
             var contest = await pb
@@ -106,7 +109,7 @@ export default function SubmissionForm() {
             setMaxSubmissionSize(contest.maxSize);
           }}
         >
-          <option disabled={true} value="unselected">
+          <option disabled={true} value="">
             Select a Contest
           </option>
           {contests.map((contest, index) => {
@@ -131,6 +134,7 @@ export default function SubmissionForm() {
         </legend>
         <input
           type="text"
+          value={title}
           className="input"
           placeholder="Type title here..."
           onChange={(event) => {
@@ -142,6 +146,7 @@ export default function SubmissionForm() {
       <fieldset>
         <legend className="fieldset-legend">Caption</legend>
         <textarea
+          value={caption}
           className="textarea"
           placeholder="Type your caption/description here..."
           onChange={(event) => {
@@ -162,6 +167,7 @@ export default function SubmissionForm() {
         <div className="join">
           <input
             type="file"
+            ref={fileInputElementRef}
             className="file-input rounded-md"
             accept="image/jpeg, image/png"
             onChange={(event) => {
