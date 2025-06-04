@@ -86,7 +86,7 @@ export default function SubmissionForm({onSubmit = null}) {
   
 
   return (
-    <fieldset className="fieldset bg-base-200 border-base-300 rounded-box w-sm border p-4">
+    <fieldset className="fieldset bg-base-200 border-base-300 rounded-box w-sm border p-4 max-w-[90%]">
       <legend className="fieldset-legend">New Submission:</legend>
 
       <fieldset className="fieldset">
