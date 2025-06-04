@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-import LoginOAuth from "./components/LoginPage";
-import HomePage from "./components/HomePage";
-import pb from "./services/pocketbase";
-import SubmissionsPage from "./components/SubmissionsPage";
-import GalleryPage from './components/GalleryPage';
-import GuestLogin from './components/GuestLogin';
+import LoginOAuth from "./components/LoginPage.jsx";
+import HomePage from "./components/HomePage.jsx";
+import pb from "./services/pocketbase.js";
+import SubmissionsPage from "./components/SubmissionsPage.jsx";
+import GalleryPage from './components/GalleryPage.jsx';
+import GuestLogin from './components/GuestLogin.jsx';
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(pb.authStore.isValid);
