@@ -21,6 +21,7 @@ export default function SubmissionForm() {
           filter: `deadline > "${now}"`,
         });
         setContests(records);
+        // console.log(records);
       } catch (error) {
         showToast("Failed to load contest list", "error");
       }
@@ -42,6 +43,18 @@ export default function SubmissionForm() {
       showToast("File should be a JPEG or a PNG only.", "error");
       return;
     }
+
+    const result = await pb.collection("submissions").getList(1, 1, {
+      filter: `user="${pb.authStore.record.id}" && contest="${contest}"`,
+    });
+    
+    const count = result.totalItems;
+    const matchedContest = contests.find(c => c.id === contest);
+    
+    if(count >= matchedContest.maxSubmissions && matchedContest.maxSubmissions != 0){
+      showToast(`Sorry, Maximum submissions limits for ${matchedContest.name} by you is reached.`, "error");
+      return;
+    }
   
     setSubmitting(true);
     try {
@@ -55,11 +68,11 @@ export default function SubmissionForm() {
       const record = await pb.collection("submissions").create(formData);
       showToast("Submission successful!", "success");
   
-      // Optionally reset form
       setTitle("");
       setCaption("");
       setFile(null);
       setContest("");
+      
     } catch (err) {
       console.error(err);
       showToast("Submission failed. Please try again.", "error");
@@ -149,7 +162,7 @@ export default function SubmissionForm() {
         <div className="join">
           <input
             type="file"
-            className="file-input"
+            className="file-input rounded-md"
             accept="image/jpeg, image/png"
             onChange={(event) => {
               setFile(event.target.files[0]);
