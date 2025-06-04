@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCamera, faImages, faHome, faSignOut, faUpload } from "@fortawesome/free-solid-svg-icons";
+import { faCamera, faImages, faHome, faUserCog, faUpload } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import ConfirmLogout from "./ConfirmLogout";
 
@@ -15,14 +15,15 @@ const Sidebar = () => {
     ];
     const bottomActions = [
         {"icon": faUpload, "label": "Submit Entry", "key": "submission"},
-        {"icon": faSignOut, "label": "Logout", "key": "logout"}
+        {"icon": faUserCog, "label": "Account Settings", "key": "account"}
     ];
     const logo = {"icon": faCamera, "label": "Pentacontests", "onClick": () => {navigator("/")}};
     const onActionClick = {
         "home" : () => {navigator("/")},
         "gallery" : () => {navigator("/gallery")},
         "submission" : () => {navigator("/submission")},
-        "logout" : () => {setShowConfirmLogout(true)},
+        // "account" : () => {setShowConfirmLogout(true)},
+        "account" : () => {navigator("/account-settings")},
     };
 
 
