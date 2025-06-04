@@ -128,7 +128,7 @@ export default function GalleryList() {
     );
   }, [submissions, userId]);
 
-  if(submissions.length == 0) return (
+  if(submissions.length == 0 && loading == false && error == false) return (
     <p className="p-4 text-sm text-center text-base-content opacity-60 alert alert-soft justify-center">
       No submissions yet, be the first!!
     </p>
