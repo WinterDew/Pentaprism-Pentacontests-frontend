@@ -1,9 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap');
 @import "tailwindcss";
 
+@theme {
+    --font-josefin-sans: "Josefin Sans", sans-serif; 
+}
 
 @plugin "daisyui"{
     themes: nord --default, sunset --prefersdark;
 
+}
+
+body {
+    @apply font-josefin-sans;
 }
 
 
