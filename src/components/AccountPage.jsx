@@ -1,6 +1,7 @@
 import pb from "../services/pocketbase";
 import Sidebar from "./SideBar";
 import Navbar from "./NavBar";
+import AccountCard from "./AccountCard";
 
 export default function AccountPage(){
 
@@ -13,8 +14,8 @@ export default function AccountPage(){
                     <strong>Account Settings</strong>
                 </span>
             </Navbar>
-            <div className="content flex-1 m-5 mb-20">
-
+            <div className="content flex-1 m-3 mb-20 justify-center items-center flex">
+                <AccountCard/>
             </div>
         </div>
         </div>

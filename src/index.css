@@ -2,14 +2,14 @@
 
 
 @plugin "daisyui"{
-    themes: light, dark;
+    themes: nord --default, sunset --prefersdark;
 
 }
 
 
 @plugin "daisyui/theme" {
     name: "penta";
-    default: true;
+    default: false;
     prefersdark: false;
     color-scheme: "light";
     --color-base-100: oklch(97% 0.017 320.058);

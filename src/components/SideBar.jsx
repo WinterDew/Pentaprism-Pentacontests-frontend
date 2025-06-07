@@ -3,11 +3,9 @@ import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCamera, faImages, faHome, faUserCog, faUpload } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
-import ConfirmLogout from "./ConfirmLogout";
 
 const Sidebar = () => {
 
-    const [showConfirmLogout, setShowConfirmLogout] = useState(false);
     const navigator = useNavigate();
     const topActions = [
         {"icon": faHome, "label": "Home", "key": "home"},
@@ -30,10 +28,7 @@ const Sidebar = () => {
   return (
     <div>
       {/* Desktop Sidebar */}
-      <ConfirmLogout
-        isOpen={showConfirmLogout}
-        onClose={() => setShowConfirmLogout(false)}
-      />
+      
       <div className="hidden md:flex flex-col fixed top-0 left-0 h-full w-16 bg-base-200 shadow-lg pt-4 pb-4 items-center justify-between">
         <div className="flex flex-col space-y-4">
           {logo && (
