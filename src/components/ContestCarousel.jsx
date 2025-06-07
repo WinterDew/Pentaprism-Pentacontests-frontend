@@ -26,7 +26,7 @@ const ContestCarousel = () => {
   }, []);
 
   const baseCardClass =
-  "carousel-item flex flex-col justify-center items-center bg-base-200 p-8 rounded-2xl min-h-[220px] transition-all duration-300 ease-in-out";
+  "carousel-item flex flex-col justify-start items-center bg-base-200 p-8 rounded-2xl min-h-[220px] transition-all duration-300 ease-in-out";
   const loadedWidth = "w-2/3 md:w-1/3";
   const loadingWidth = "w-[250px]";
 
