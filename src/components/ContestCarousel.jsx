@@ -13,7 +13,7 @@ const ContestCarousel = () => {
         const now = new Date().toISOString();
         const records = await pb.collection("contests").getFullList({
           sort: "+deadline",
-          filter: `deadline > "${now}"`,
+          filter: `deadline > "${now}" && start < "${now}"`,
         });
         setContests(records);
       } catch (error) {
