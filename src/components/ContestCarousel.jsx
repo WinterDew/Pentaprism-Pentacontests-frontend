@@ -27,7 +27,7 @@ const ContestCarousel = () => {
 
   const baseCardClass =
   "carousel-item flex flex-col justify-center items-center bg-base-200 p-8 rounded-2xl min-h-[220px] transition-all duration-300 ease-in-out";
-  const loadedWidth = "w-3/4 md:w-1/3";
+  const loadedWidth = "w-2/3 md:w-1/3";
   const loadingWidth = "w-[250px]";
 
   return (
@@ -61,7 +61,7 @@ const ContestCarousel = () => {
                 className={`${baseCardClass} ${loadedWidth}`}
               >
                 <h2 className="text-2xl font-bold">{contest.name}</h2>
-                <p className="mt-2 text-center">{contest.description}</p>
+                <p className="mt-2 text-start">{contest.description}</p>
                 <div className="flex flex-col items-center justify-center text-left">
                   <p className="mt-2 text-sm text-gray-500">
                     Max Submissions: {contest.maxSubmissions} per person
