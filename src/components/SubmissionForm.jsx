@@ -60,8 +60,8 @@ export default function SubmissionForm({onSubmit = null}) {
     setSubmitting(true);
     try {
       const formData = new FormData();
-      formData.append("title", title);
-      formData.append("caption", caption);
+      formData.append("title", title.trim());
+      formData.append("caption", caption.trim());
       formData.append("contest", contest);
       formData.append("image", file);
       formData.append("user", pb.authStore.record.id);
@@ -128,7 +128,7 @@ export default function SubmissionForm({onSubmit = null}) {
           Title
           <div
             className={`status ${
-              title == "" ? "status-error animate-bounce" : "status-success"
+              title.trim() == "" ? "status-error animate-bounce" : "status-success"
             }`}
           />
         </legend>
