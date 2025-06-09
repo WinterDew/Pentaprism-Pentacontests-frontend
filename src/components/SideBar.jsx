@@ -26,7 +26,7 @@ const Sidebar = () => {
 
 
   return (
-    <div>
+    <div className="z-50">
       {/* Desktop Sidebar */}
       
       <div className="hidden md:flex flex-col fixed top-0 left-0 h-full w-16 bg-base-200 shadow-lg pt-4 pb-4 items-center justify-between">
