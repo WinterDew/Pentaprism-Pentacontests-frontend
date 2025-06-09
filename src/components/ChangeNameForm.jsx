@@ -26,7 +26,7 @@ export default function ChangeNameCard({onNameChange = null}){
         <fieldset className="fieldset bg-base-200 rounded-box w-full p-1">
             <label className="input">
               <div className={`status ${pb.authStore.record.name === currentName ? "status-warning animate-pulse" : currentName.length < 4 ? "status-error animate-bounce" : "status-success animate-none" }`} />
-              <input type="text" placeholder="John Doe" value={currentName} onChange={(event) => {setCurrentName(event.target.value)}}/>
+              <input type="text" placeholder="John Doe" value={currentName} onChange={(event) => {setCurrentName(event.target.value.trim())}}/>
             </label>
             <p className="label max-w-xs text-wrap">Full name is shown if no spaces present, else only first part is shown on homepage.</p>
 
