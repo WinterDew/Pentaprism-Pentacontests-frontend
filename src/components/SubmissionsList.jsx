@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import pb from "../services/pocketbase";
 import useToast from "../hooks/useToast";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import ConfirmDelete from "./ConfirmDelete";
 
 export default function SubmissionsList({refresh = null}) {
   const [submissions, setSubmissions] = useState([]);
@@ -9,6 +12,9 @@ export default function SubmissionsList({refresh = null}) {
   const [error, setError] = useState(false);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(false);
+  const [showConfirmDelete, setShowConfirmDelete] = useState(false);
+  const [deletionId, setDeletionId] = useState("");
+
 
   const user = pb.authStore?.record;
   const showToast = useToast();
@@ -42,7 +48,7 @@ export default function SubmissionsList({refresh = null}) {
     }
   };
 
-  useEffect(() => {
+  function initLoad(){
     if (!user) return;
 
     const loadInitial = async () => {
@@ -52,7 +58,9 @@ export default function SubmissionsList({refresh = null}) {
     };
 
     loadInitial();
-  }, [refresh]);
+  }
+
+  useEffect(() => initLoad(), [refresh]);
 
   const handleLoadMore = async () => {
     const nextPage = page + 1;
@@ -62,7 +70,21 @@ export default function SubmissionsList({refresh = null}) {
     setLoadingMore(false);
   };
 
+  async function handleDelete(){
+    try{
+      await pb.collection("submissions").delete(deletionId);
+      showToast("Submission deleted successfully", "success");
+      initLoad();
+    } catch(err) {
+      showToast("An error occured, could not delete submission", "error");
+    } finally{
+      setDeletionId("");
+    }
+  }
+
   return (
+    <>
+    <ConfirmDelete isOpen={showConfirmDelete} onClose={() => setShowConfirmDelete(false)} handleDelete={handleDelete}/>
     <ul className="list bg-base-200 rounded-box shadow-md md:max-h-[75vh] md:max-w-[40vw] overflow-y-auto">
       <li className="p-4 pb-2 text-xs font-bold tracking-wide">Your Submissions</li>
 
@@ -105,9 +127,14 @@ export default function SubmissionsList({refresh = null}) {
                 />
               </div>
               <div className="flex-1 min-w-0">
-                <div className="font-semibold">{submission.title}</div>
+                <div className="flex justify-between items-center mb-2">
+                  <div className="font-semibold">{submission.title} </div>
+                  <button onClick={() => {setDeletionId(submission.id); setShowConfirmDelete(true);}} 
+                          className="btn btn-square btn-sm hover:btn-warning btn-ghost"
+                  ><FontAwesomeIcon icon={faTrash}/></button>
+                </div>
                 <div className="text-xs uppercase font-medium opacity-60">
-                  Contest: {submission.contestName}
+                  Contest: {submission.contestName} 
                 </div>
                 <div className="text-xs uppercase font-medium opacity-60">
                   {submission.created.toLocaleString()}
@@ -130,5 +157,7 @@ export default function SubmissionsList({refresh = null}) {
         </>
       )}
     </ul>
+
+    </>
   );
 }
