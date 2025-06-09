@@ -202,7 +202,7 @@ export default function SubmissionForm({onSubmit = null}) {
         </label>
       </fieldset>
 
-      <button className="btn btn-neutral mt-4"
+      <button className="btn btn-accent mt-4"
               disabled={submitting}
               onClick={handleSubmit}
             >

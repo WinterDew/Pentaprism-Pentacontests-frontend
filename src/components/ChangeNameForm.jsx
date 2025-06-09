@@ -24,13 +24,15 @@ export default function ChangeNameCard({onNameChange = null}){
 
     return (
         <fieldset className="fieldset bg-base-200 rounded-box w-full p-1">
-            <label className="label">Name</label>
-            <input type="text" className="input" placeholder="John Doe" value={currentName} onChange={(event) => {setCurrentName(event.target.value)}}/>
+            <label className="input">
+              <div className={`status ${pb.authStore.record.name === currentName ? "status-warning animate-pulse" : currentName.length < 4 ? "status-error animate-bounce" : "status-success animate-none" }`} />
+              <input type="text" placeholder="John Doe" value={currentName} onChange={(event) => {setCurrentName(event.target.value)}}/>
+            </label>
             <p className="label max-w-xs text-wrap">Full name is shown if no spaces present, else only first part is shown on homepage.</p>
 
             <div className="join">
                 <button className="btn join-item btn-soft mt-4" onClick={() => setCurrentName(pb.authStore.record.name)}>Cancel</button>
-                <button className="btn join-item btn-neutral mt-4" onClick={handleSubmit} disabled={pb.authStore.record.name === currentName}>Save</button>
+                <button className="btn join-item btn-info mt-4" onClick={handleSubmit} disabled={pb.authStore.record.name === currentName || currentName.length < 4}>Save</button>
             </div>
         </fieldset>
     );

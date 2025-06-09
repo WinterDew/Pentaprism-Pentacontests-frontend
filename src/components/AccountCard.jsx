@@ -33,7 +33,7 @@ const AccountCard = () => {
 
         <div className="w-full bg-base-200 border-base-300 border rounded-box p-5 font-semibold flex items-center justify-between">
             <span>Dark Mode: </span> 
-            <input type="checkbox" value="sunset" checked={isDark} className="toggle theme-controller" onChange={handleThemeChange}/>
+            <input type="checkbox" value="sunset" checked={isDark} className="toggle toggle-info theme-controller" onChange={handleThemeChange}/>
         </div>
 
         <div className="card-actions justify-end mt-3">

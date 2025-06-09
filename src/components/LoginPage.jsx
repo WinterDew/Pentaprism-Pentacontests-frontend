@@ -35,9 +35,9 @@ function LoginOAuth(){
                     Welcome to Pentacontests, <br />Login with Microsoft OAuth with your IIIT Account.
                 </p>
                 <div className="card-actions w-full mt-4">
-                    <button className="btn btn-neutral w-full" onClick={handleLogin}>Login</button>
+                    <button className="btn btn-accent w-full" onClick={handleLogin}>Login</button>
                     <div className="divider w-full"> ☉ </div>
-                    <button className="btn btn-outline w-full" onClick={() => {showToast("Contact Administrator for credentials", "warning"); navigate("/guest-login")}}>Don't have a IIIT Account</button>
+                    <button className="btn btn-outline btn-neutral w-full" onClick={() => {showToast("Contact Administrator for credentials", "warning"); navigate("/guest-login")}}>Don't have a IIIT Account</button>
                 </div>
                 <p className="py-2 text-sm text-gray-500">Developed and Hosted by Tatva Agarwal <a href="https://winterdew.github.io">(@winterdewdev)</a></p>
                 </div>
