@@ -6,7 +6,7 @@ import LikeButton from "../components/LikeButton";
 const PAGE_SIZE = 5;
 const DELAY_MS = 500;
 
-export default function GalleryList() {
+export default function GalleryList({filters = ""}) {
   const [submissions, setSubmissions] = useState([]);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
@@ -41,6 +41,7 @@ export default function GalleryList() {
 
       const res = await pb.collection("submissions").getList(page, PAGE_SIZE, {
         expand: "user,contest",
+        filter: filters,
         sort: "-created",
       });
 
