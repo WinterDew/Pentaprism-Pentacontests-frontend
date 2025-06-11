@@ -11,6 +11,7 @@ import useTheme from "./hooks/useTheme.js";
 
 function App() {
   useTheme("nord");
+
   const [loggedIn, setLoggedIn] = useState(pb.authStore.isValid);
 
   useEffect(() => {
