@@ -16,7 +16,7 @@ export default function SubmissionForm({onSubmit = null}) {
   useEffect(() => {
     const fetchContests = async () => {
       try {
-        const now = new Date().toISOString();
+        const now = new Date().toISOString().replace("T", " ");
         const records = await pb.collection("contests").getFullList({
           sort: "+deadline",
           filter: `deadline > "${now}" && start < "${now}"`,

@@ -9,7 +9,7 @@ function GalleryPage() {
 
   useEffect(() => {document.title = "Gallery | Pentacontests"}, []);
   const [selectedTab, setSelectedTab] = useState("1");
-  const now = new Date().toISOString();
+  const now = new Date().toISOString().replace("T", " ");
 
   return (
     <div className="flex min-h-screen">

@@ -10,10 +10,11 @@ const ContestCarousel = () => {
   useEffect(() => {
     const fetchContests = async () => {
       try {
-        const now = new Date().toISOString();
+        const now = new Date().toISOString().replace("T", " ");
+        console.log(now);
         const records = await pb.collection("contests").getFullList({
           sort: "+deadline",
-          filter: `deadline > "${now}" && start < "${now}"`,
+          filter: `deadline >= "${now}" && start <= "${now}"`,
         });
         setContests(records);
       } catch (error) {
